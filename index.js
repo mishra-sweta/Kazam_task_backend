@@ -4,9 +4,11 @@ import bodyParser from "body-parser";
 import { mqttConnect } from "./utils/mqttHandler.js";
 import taskRouter from "./routes/taskRoutes.js";
 import connectDB from "./utils/dbConnect.js";
+import cors from "cors";
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 connectDB();
 mqttConnect();
