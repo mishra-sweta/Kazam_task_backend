@@ -2,15 +2,14 @@ import { connect } from "mqtt";
 import { addTaskInCache } from "./redisHandler.js";
 
 let mqttClient = null;
+const mqqtConnectionURL =
+  "mqtts://0adf676947c4457daa020e02cc8011b5.s1.eu.hivemq.cloud:8883";
 
 export const mqttConnect = () => {
-  mqttClient = connect(
-    "mqtts://0adf676947c4457daa020e02cc8011b5.s1.eu.hivemq.cloud:8883",
-    {
-      username: "swetacodes",
-      password: "Kazma123",
-    }
-  );
+  mqttClient = connect(mqqtConnectionURL, {
+    username: "swetacodes",
+    password: process.env.HIVE_PASSWORD,
+  });
 
   mqttClient.on("connect", () => {
     console.log("Connected to HiveMQ!");

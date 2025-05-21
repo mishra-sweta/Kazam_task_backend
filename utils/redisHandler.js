@@ -2,14 +2,16 @@ import redis from "redis";
 import Task from "../model/taskModel.js";
 
 export const REDIS_KEY = "FULLSTACK_TASK_Sweta";
+const REDIS_HOST = "redis-12675.c212.ap-south-1-1.ec2.cloud.redislabs.com";
+const REDIS_PORT = 12675;
 
 const client = redis.createClient({
   socket: {
-    host: "127.0.0.1",
-    port: 6379,
+    host: REDIS_HOST,
+    port: REDIS_PORT,
   },
-  // username: "default",
-  // password: process.env.REDIS_PASSWORD,
+  username: "default",
+  password: process.env.REDIS_PASSWORD,
 });
 
 client.connect();
@@ -19,9 +21,9 @@ export const addTaskInCache = async (param) => {
   const cached = JSON.parse(await client.get(REDIS_KEY)) || [];
   cached.push(task);
   let resp;
-  if (cached.length > 3) {
-    const toInsert = cached.slice(0, 3);
-    const toKeep = cached.slice(3);
+  if (cached.length > 50) {
+    const toInsert = cached.slice(0, 50);
+    const toKeep = cached.slice(50);
 
     await Task.insertMany(toInsert.map((task) => ({ task })));
 
