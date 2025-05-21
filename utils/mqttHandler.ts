@@ -24,9 +24,14 @@ export const mqttConnect = (): MqttClient => {
   });
 
   mqttClient.on("message", async (topic: string, message: Buffer) => {
-    console.log(`Received on ${topic}: ${message.toString()}`);
-    await addTaskInCache(message.toString());
-  });
+  const taskString = message.toString();
+  console.log(`Received on ${topic}: ${taskString}`);
+
+  
+  await addTaskInCache(message.toString());
+
+});
+
 
   mqttClient.on("error", (err: Error) => {
     console.error("MQTT Error:", err.message);

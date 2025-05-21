@@ -15,6 +15,8 @@ const getAllTasks = async (req: Request, res: Response): Promise<void> => {
     const tasks = mongoTasks.map((e) => e.task);
     const allTasks = [...tasks, ...redisTasks];
 
+    console.log(mongoTasks);
+    
     res.status(200).json({ success: true, tasks: allTasks });
   } catch (err) {
     console.error("Error fetching tasks:", err);
