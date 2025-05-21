@@ -1,14 +1,8 @@
 import { Router } from "express";
+import { getAllTasks, addTask } from "../controllers/taskController.js";
 const taskRouter = Router();
 
-taskRouter.get("/fetchAllTasks", async (req, res) => {
-  try {
-    const redisTasks = JSON.parse(await redisClient.get(REDIS_KEY)) || [];
-    const mongoTasks = await Task.find();
-    res.json([...redisTasks, ...mongoTasks.map((doc) => doc.task)]);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+taskRouter.get("/fetchAllTasks", getAllTasks);
+taskRouter.post("/addTask", addTask);
 
 export default taskRouter;

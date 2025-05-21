@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import bodyParser from "body-parser";
+import { mqttConnect } from "./utils/mqttHandler.js";
 import taskRouter from "./routes/taskRoutes.js";
 import connectDB from "./utils/dbConnect.js";
 
@@ -8,6 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 
 connectDB();
+mqttConnect();
 
 app.use("/api/", taskRouter);
 
