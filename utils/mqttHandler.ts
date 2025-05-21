@@ -1,5 +1,5 @@
 import { connect, MqttClient } from "mqtt";
-import { addTaskInCache } from "./redisHandler";
+import { addTaskInCache } from "./redisHandler.js";
 
 let mqttClient: MqttClient | null = null;
 

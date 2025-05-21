@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import redisClient, { REDIS_KEY } from "../utils/redisHandler";
-import Task from "../model/taskModel";
-import { publishTask } from "../utils/mqttHandler";
+import redisClient, { REDIS_KEY } from "../utils/redisHandler.js";
+import Task from "../model/taskModel.js";
+import { publishTask } from "../utils/mqttHandler.js";
 
 const getAllTasks = async (req: Request, res: Response): Promise<void> => {
   try {

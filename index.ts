@@ -1,12 +1,11 @@
-// src/index.ts
 import "dotenv/config";
 import express, { Application } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
-import { mqttConnect } from "./utils/mqttHandler";
-import taskRouter from "./routes/taskRoutes";
-import connectDB from "./utils/dbConnect";
+import { mqttConnect } from "./utils/mqttHandler.js";
+import taskRouter from "./routes/taskRoutes.js";
+import connectDB from "./utils/dbConnect.js";
 
 const app: Application = express();
 

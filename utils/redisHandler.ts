@@ -1,5 +1,5 @@
 import redis from "redis";
-import Task from "../model/taskModel";
+import Task from "../model/taskModel.js";
 
 
 export const REDIS_KEY = "FULLSTACK_TASK_Sweta";
