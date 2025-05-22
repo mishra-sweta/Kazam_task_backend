@@ -8,7 +8,7 @@ export const mqttConnect = (): MqttClient => {
     "mqtts://0adf676947c4457daa020e02cc8011b5.s1.eu.hivemq.cloud:8883",
     {
       username: "swetacodes",
-      password: "Kazma123",
+      password: process.env.HIVE_PASSWORD,
     }
   );
 
