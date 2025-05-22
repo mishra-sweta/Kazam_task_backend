@@ -1,19 +1,20 @@
-import { connect } from "mqtt";
+import { connect, MqttClient } from "mqtt";
 import { addTaskInCache } from "./redisHandler.js";
 
-let mqttClient = null;
-const mqqtConnectionURL =
-  "mqtts://0adf676947c4457daa020e02cc8011b5.s1.eu.hivemq.cloud:8883";
+let mqttClient: MqttClient | null = null;
 
-export const mqttConnect = () => {
-  mqttClient = connect(mqqtConnectionURL, {
-    username: "swetacodes",
-    password: process.env.HIVE_PASSWORD,
-  });
+export const mqttConnect = (): MqttClient => {
+  mqttClient = connect(
+    "mqtts://0adf676947c4457daa020e02cc8011b5.s1.eu.hivemq.cloud:8883",
+    {
+      username: "swetacodes",
+      password: process.env.HIVE_PASSWORD,
+    }
+  );
 
   mqttClient.on("connect", () => {
     console.log("Connected to HiveMQ!");
-    mqttClient.subscribe("/add", (err) => {
+    mqttClient?.subscribe("/add", (err) => {
       if (!err) {
         console.log("Subscribed to /add");
       } else {
@@ -22,19 +23,24 @@ export const mqttConnect = () => {
     });
   });
 
-  mqttClient.on("message", async (topic, message) => {
-    console.log(`Received on ${topic}: ${message.toString()}`);
-    await addTaskInCache(message.toString());
-  });
+  mqttClient.on("message", async (topic: string, message: Buffer) => {
+  const taskString = message.toString();
+  console.log(`Received on ${topic}: ${taskString}`);
 
-  mqttClient.on("error", (err) => {
+  
+  await addTaskInCache(message.toString());
+
+});
+
+
+  mqttClient.on("error", (err: Error) => {
     console.error("MQTT Error:", err.message);
   });
 
   return mqttClient;
 };
 
-export const publishTask = (topic, task) => {
+export const publishTask = (topic: string, task: any): void => {
   if (!mqttClient || !mqttClient.connected) {
     console.error("MQTT not connected. Cannot publish.");
     return;
